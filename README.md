@@ -60,17 +60,17 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
   - キャラクタベースのレトロなBASIC風ゲーム
 ![wormgame](image/wormgame.png)  
 * sample01.py
-  - locate, color, print, inkeyなどコンソール関数の使用例
+  - locate, color, print, inkeyなどコンソール関数の使用例。[実行画面](image/sample01.png)
 * sample02.py
-  - グラフィック関数
+  - グラフィック関数。[実行画面](image/sample02.png)
 * sample03.py
-  - スプライト関数の使用例
+  - スプライト関数の使用例。[実行画面](image/sample03.png)
 * sample04.py
-  - FM音源関数、ADPCM関数の使用例
+  - FM音源関数、ADPCM関数の使用例。[実行画面](image/sample04.png)
 * sample05.py
-  - マウス関数、ジョイスティック関数の使用例
+  - マウス関数、ジョイスティック関数の使用例。[実行画面](image/sample05.png)
 * sample06.py
-  - テキストグラフィック関数の使用例
+  - テキストグラフィック関数の使用例。[実行画面](image/sample06.png)
 
 ## ファイル構成
 
