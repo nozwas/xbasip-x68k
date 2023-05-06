@@ -12,8 +12,10 @@ from xbasip.stick import *
 from binascii import unhexlify
 
 K_RETURN, K_ESCAPE, K_SPACE, K_BACKSPACE = 0x0d, 0x1b, 0x20, 0x08
-K_UP, K_LEFT, K_RIGHT, K_DOWN = map(lambda i: key(i)[0], range(25, 29))
-# カーソルキーはユーザー定義の状態を読み出す
+K_UP, K_LEFT, K_RIGHT, K_DOWN = 0x10, 0x02, 0x06, 0x0e
+for i, code in enumerate((K_UP, K_LEFT, K_RIGHT, K_DOWN), start=25):
+    key(i, chr(code).encode())
+# カーソルキーは一時的に再定義（end()で復帰）
 
 screen(0,0,1,1)
 cursor_off()
@@ -54,7 +56,7 @@ while True:
 
     if k == K_LEFT or s in (1, 4, 7):
         xx = x - 1
-    if k == K_RIGHT or s in (3, 6, 8):
+    if k == K_RIGHT or s in (3, 6, 9):
         xx = x + 1
     if k == K_UP or s in (7, 8, 9):
         yy = y - 1

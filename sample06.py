@@ -8,6 +8,7 @@ r"""sample06.py
 
 from xbasip.console import *
 from xbasip.tgraph import *
+from xbasip.graph import rgb
 
 width(64)
 console(0, 32, 0)

@@ -138,7 +138,6 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `getfont(code, buf=None, font_size=1)` -- returns: (w, h, data)
 * `beep()`
 * `end(arg=None)` -- カーソル表示、ファンクションキー表示/定義、外字定義を実行前の状態に戻し、終了します
-* `rgb(r, g=None, b=None)` -- graphモジュールにも同じものがあります
 
 ### `graph`モジュール
 
@@ -164,7 +163,7 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `vpage(page_bit)` -- 表示ページ
 * `home(page, x, y)`
 * `scroll(page, x, y)` -- page=0～3はグラフィック画面、8はテキスト画面
-* `crtmod(mode)`
+* `crtmod(mode, disp_on=True)`
 
 ### `sprite`モジュール
 

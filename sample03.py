@@ -7,6 +7,7 @@ r"""sample03.py
 """
 from xbasip.console import *
 from xbasip.sprite import *
+from xbasip.graph import rgb
 from random import randrange
 from math import pi, sin, cos
 from binascii import unhexlify

@@ -10,6 +10,7 @@ r"""wormgame.py
 from xbasip.console import *
 from xbasip.audio import *
 from xbasip.tgraph import *
+from xbasip.graph import rgb
 from binascii import unhexlify
 from random import randrange, seed
 from time import time
@@ -346,8 +347,11 @@ def main():
     for i, c in enumerate(pal):
         tpalet2(i, rgb(c[0], c[1], c[2]))
     C_WORM, C_BODY, C_WALL, C_BLOCK, C_FRUITS, C_TEXT = 2, 1, 2, 1, 3, 7
-    K_UP, K_LEFT, K_RIGHT, K_DOWN = map(lambda i: key(i)[0], range(25, 29))
     K_ESCAPE, K_s, K_q, K_c = 27, ord("s"), ord("q"), ord("c")
+    K_UP, K_LEFT, K_RIGHT, K_DOWN = 0x10, 0x02, 0x06, 0x0e
+    for i, code in enumerate((K_UP, K_LEFT, K_RIGHT, K_DOWN), start=25):
+        key(i, chr(code).encode())
+
     PCM1 = unhexlify("7077fd0f" + "3481bd19" * 127)
 
     opening()

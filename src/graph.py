@@ -12,10 +12,12 @@ from struct import pack, unpack
 
 _last_point = [0, 0]
 
-def crtmod(mode):
+def crtmod(mode, disp_on=True):
     global _last_point
-    x68k.iocs(x68k.i.CRTMOD, d1=mode)
     _last_point = (0, 0)
+    x68k.iocs(x68k.i.CRTMOD, d1=mode)
+    if disp_on:
+        x68k.iocs(x68k.i.G_CLR_ON)
 
 def palet(pal, color):
     x68k.iocs(x68k.i.GPALET ,d1=pal, d2=color)
@@ -99,10 +101,10 @@ def point(x, y):
     return unpack('3h', p)[2]
 
 def contrast(level):
-    return x68k.iocs(x68k.i.CONTRAST, d1=level)
+    x68k.iocs(x68k.i.CONTRAST, d1=level)
 
 def window(x1, y1, x2, y2):
-    return x68k.iocs(x68k.i.WINDOW, d1=x1, d2=y1, d3=x2, d4=y2)
+    x68k.iocs(x68k.i.WINDOW, d1=x1, d2=y1, d3=x2, d4=y2)
 
 def wipe():
     global _last_point
