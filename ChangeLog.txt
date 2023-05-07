@@ -1,12 +1,15 @@
 xbasip 変更履歴
 
-ver.0.1.1: graph.py: crtmod()の引数にdisp_onを追加
-	   graph.py: contrast()、window()の戻り値を削除
-	   console.py: rgb()を削除。graphモジュールでの定義に一本化
-	   sample03.py: rgb()をgraphモジュールからimportするよう変更
-	   sample05.py: カーソルキーの扱い方を変更
-	   sample06.py: rgb()をgraphモジュールからimportするよう変更
-	   wormgame.py: カーソルキーの扱い方を変更
-	   wormgame.py: rgb()をgraphモジュールからimportするよう変更
+ver.0.1.1b: sample05.py: カーソルキーの扱い方を変更
+            wormgame.py: カーソルキーの扱い方を変更
 
-ver.0.1.0: 最初のリリース
+ver.0.1.1:  graph.py: crtmod()の引数にdisp_onを追加
+	    graph.py: contrast()、window()の戻り値を削除
+	    console.py: rgb()を削除。graphモジュールでの定義に一本化
+	    sample03.py: rgb()をgraphモジュールからimportするよう変更
+	    sample05.py: カーソルキーの扱い方を変更
+	    sample06.py: rgb()をgraphモジュールからimportするよう変更
+	    wormgame.py: カーソルキーの扱い方を変更
+	    wormgame.py: rgb()をgraphモジュールからimportするよう変更
+
+ver.0.1.0:  最初のリリース

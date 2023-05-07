@@ -12,7 +12,7 @@ from xbasip.stick import *
 from binascii import unhexlify
 
 K_RETURN, K_ESCAPE, K_SPACE, K_BACKSPACE = 0x0d, 0x1b, 0x20, 0x08
-K_UP, K_LEFT, K_RIGHT, K_DOWN = 0x10, 0x02, 0x06, 0x0e
+K_UP, K_LEFT, K_RIGHT, K_DOWN = ord("8"), ord("4"), ord("6"), ord("2")
 for i, code in enumerate((K_UP, K_LEFT, K_RIGHT, K_DOWN), start=25):
     key(i, chr(code).encode())
 # カーソルキーは一時的に再定義（end()で復帰）
