@@ -209,8 +209,3 @@ def end(arg=None):
         print(arg)
         exit(1)
 
-def rgb(r, g=None, b=None):
-    if type(r) is tuple:
-        return rgb(r[0], r[1], r[2])
-    else:
-        return (g << 11)  | (r << 6) | (b << 1)

@@ -74,7 +74,7 @@ def paint(x, y, color, buf=None):
                       addressof(buf), addressof(buf) + len(buf)))
 
 def get(x1, y1, x2, y2, buf=None):
-    depth = (4, 8, 16, 4)[x68k.iocs(x68k.i.G_MOD, d1=-1)]
+    depth = (4, 8, 16, 16, 4)[x68k.iocs(x68k.i.G_MOD, d1=-1)]
     if buf is None:
         buf = bytearray(((x2-x1+1)*(y2-y1+1)*depth + 4) >> 3)
     x68k.iocs(x68k.i.GETGRM,

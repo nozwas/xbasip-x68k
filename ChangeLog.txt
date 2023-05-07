@@ -1,5 +1,7 @@
 xbasip 変更履歴
 
+ver.0.1.2:  graph.py: get()の引数bufを省略した場合の不具合修正
+
 ver.0.1.1b: sample05.py: カーソルキーの扱い方を変更
             wormgame.py: カーソルキーの扱い方を変更
 
