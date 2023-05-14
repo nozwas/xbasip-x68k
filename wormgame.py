@@ -379,6 +379,7 @@ def main():
         elif k == K_q or k == K_ESCAPE:
             break
 
+    color(3)
     cls(True)
     end()
     

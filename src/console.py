@@ -8,8 +8,8 @@ r"""console.py
 
 import x68k
 from uctypes import addressof
-from struct import pack
-from sys import exit
+from ustruct import pack
+from usys import exit
 
 _initial_fkey_disp = None
 _initial_fkey_str = None
@@ -97,7 +97,7 @@ def tpalet2(pal=None, color=None):
     if color is None:
         if pal is None:
             for pal in range(16):
-                x68k.iocs(x68k.i.TPALET, d1=pal, d2=-2)
+                x68k.iocs(x68k.i.TPALET2, d1=pal, d2=-2)
         else:
             return x68k.iocs(x68k.i.TPALET2, d1=pal, d2=-1)
     else:
@@ -110,7 +110,8 @@ def inkey(wait=True):
         return x68k.dos(x68k.d.INPOUT, b'\x00\xff')
 
 def inkeyS(wait=True):
-    return chr(inkey(wait))
+    s = inkey(wait)
+    return "" if s == 0 else chr(s)
 
 @micropython.native
 def inkey0():
@@ -130,7 +131,7 @@ def sftsns():
 
 @micropython.native
 def bitsns(group):
-    return x68k.iocs(x68k.i.B_BITSNS, d1=group)
+    return x68k.iocs(x68k.i.BITSNS, d1=group)
 
 @micropython.native
 def keyflush():
@@ -186,7 +187,9 @@ def getfont(code, buf=None, font_size=1):
         font_size = (6, 8, 12)[font_size]
     if buf is None:
         buf = bytearray((4 + 72) if font_size == 12 else (4 + 4 * font_size))
-    x68k.iocs(x68k.i.FNTGET, d1=(font_size << 16) | code, a1=buf)
+    elif len(buf) < (4 + 72) if font_size == 12 else (4 + 4 * font_size):
+        raise RuntimeError("wrong buf size")
+    x68k.iocs(x68k.i.FNTGET, d1=(font_size << 16) | code, a1w=buf)
     return buf[1], buf[3], buf[4:]
     
 @micropython.native
@@ -209,3 +212,15 @@ def end(arg=None):
         print(arg)
         exit(1)
 
+def priority(sp, tx, gr):
+    l = [sp, tx, gr]
+    if sum(l) != 3 or min(l) != 0 or max(l) != 2:
+        raise RuntimeError("wrong parameter")
+    g = x68k.iocs(x68k.i.PRIORITY, d1=-1) & 0xff
+    x68k.iocs(x68k.i.PRIORITY, d1=(sp << 12) | (tx << 10) | (gr << 8) | g)
+
+def crtmod(mode, disp_on=True):
+    _backup_fkey_disp()
+    x68k.iocs(x68k.i.CRTMOD, d1=mode)
+    if disp_on:
+        x68k.iocs(x68k.i.G_CLR_ON)

@@ -7,7 +7,7 @@ r"""tgraph.py
 """
 
 import x68k
-from struct import pack
+from ustruct import pack
 
 _t_last_point = [0, 0]
 

@@ -6,7 +6,7 @@ r"""__init__.py
     xbasip consists of multple modules 
 """
 
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 
 from .audio import *
 from .console import *

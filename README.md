@@ -2,6 +2,8 @@
 
 [MicroPython for X68000](https://github.com/yunkya2/micropython-x68k)用にX-BASIC風の関数群パッケージを作成しました。ほとんどIOCSCALLやDOSCALLを呼んでいるだけですが、X-BASICの情報を活かしながらX68KでPythonプログラミングを始める参考になれば幸いです。
 
+MycroPython v1.20.0-x68k-1.1で動作を確認しています。
+
 ## 使い方
 
 `xbasip`フォルダをそのままカレントフォルダ直下に置き、次の様にインポートして使用します。
@@ -72,6 +74,10 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * sample06.py
   - テキストグラフィック関数の使用例。[実行画面](image/sample06.png)
 
+## リファレンスマニュアル
+
+`docs`フォルダに全関数の機能と使い方をまとめたリファレンスマニュアルを用意しました。モジュールごとにページが分かれているので、関連する関数をまとめてご確認ください。
+
 ## ファイル構成
 
 `xbasip`フォルダに`mpycross.x`でプリコンパイル済みの`*.mpy`ファイルが格納されています。使用時はこのフォルダのみが必要です。`src`フォルダにはソースの`*.py`ファイルが入っています。
@@ -97,6 +103,16 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 │   ├── sprite.py
 │   ├── stick.py
 │   └── tgraph.py
+├── docs
+│   ├── index.html
+│   ├── audio.html
+│   ├── basic.html
+│   ├── graph.html
+│   ├── mouse.html
+│   ├── music.html
+│   ├── sprite.html
+│   ├── stick.html
+│   └── tgraph.html
 ├── sample01.py
 ├── sample02.py
 ├── sample03.py
@@ -121,10 +137,10 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `color(pal)`
 * `tpalet(pal=None, color=None)`
 * `tpalet2(pal=None, color=None)`
-* `inkey(wait=True)`
-* `inkeyS(wait=True)`
-* `inkey0()`
-* `keyflush()` -- キーバッファのクリア
+* `inkey(wait=True)` -- キャラクタコードを返します
+* `inkeyS(wait=True)` -- 文字型で返します
+* `inkey0()` -- 入力を待ちません
+* `keyflush()` -- キーデータバッファのクリア
 * `keyinp()`
 * `keysns()`
 * `sftsns()`
@@ -134,22 +150,26 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `key_off()`
 * `cursor_on()` -- カーソル表示オン
 * `cursor_off()`
-* `deffont(code, buf, font_size=1)` -- 外字の定義
-* `getfont(code, buf=None, font_size=1)` -- returns: (w, h, data)
+* `deffont(code, buf, font_size=1)` -- 外字フォントの定義
+* `getfont(code, buf=None, font_size=1)` -- returns: (w, h, buf)
 * `beep()`
-* `end(arg=None)` -- カーソル表示、ファンクションキー表示/定義、外字定義を実行前の状態に戻し、終了します
+* `end(arg=None)` -- カーソル表示、ファンクションキー表示/定義、外字フォント定義を実行前の状態に戻し、終了します
+* `priority(sp, tx, gr)` -- 0, 1, 2で画面表示の優先度を指定します（0が最前面）
+* `crtmod(mode, disp_on=True)`
 
 ### `graph`モジュール
 
 * `pset(x, y, color)`
 * `line(x1, y1, x2, y2, color, style=0xffff)`
-* `line_to(x, y, color, style=0xffff)` -- 前回のline終点、pset点を起点に直線を描きます
+* `line_to(x, y, color, style=0xffff)` -- 前回のline終点またはpset点を始点に直線を描きます
 * `box(x1, y1, x2, y2, color, style=0xffff)`
 * `fill(x1, y1, x2, y2, color)`
 * `circle(x, y, r, color=None, start=0, end=360, ratio=256)`
 * `paint(x, y, color, buf=None)`
-* `get(x1, y1, x2, y2, buf=None)`
+* `get(x1, y1, x2, y2, buf=None)` -- buf省略時は内部で確保して返します
 * `put(x1, y1, x2, y2, buf)`
+* `get2(x1, y1, x2, y2)` -- returns: 先頭に幅、高さ、色モードの3ワードが付与されます
+* `put2(x, y, buf, mask=None)` -- bufの先頭に幅、高さ、色モードが必要、maskは透過色
 * `symbol(x, y, str, xmag, ymag, font_size, color, dir=0)`
 * `point(x, y)`
 * `palet(pal, color)`
@@ -163,33 +183,32 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `vpage(page_bit)` -- 表示ページ
 * `home(page, x, y)`
 * `scroll(page, x, y)` -- page=0～3はグラフィック画面、8はテキスト画面
-* `crtmod(mode, disp_on=True)`
 
 ### `sprite`モジュール
 
 * `sp_init()`
 * `sp_clr(code1=None, code2=None)` -- パタンコードの指定をtupleで与えることもできます
-* `sp_color(pal, color, pal_blk=1, vsync=0)`
-* `sp_on(sp1=None, sp2=None, prio=3, vsync=0)` -- スプライトの指定をtupleで与えることもできます
-* `sp_off(sp1=None, sp2=None, vsync=0)` -- スプライトの指定をtupleで与えることもできます
+* `sp_color(pal, color, pal_blk=1, vsync=False)`
+* `sp_on(sp1=None, sp2=None, prio=3, vsync=False)` -- スプライトの指定をtupleで与えることもできます
+* `sp_off(sp1=None, sp2=None, vsync=False)` -- スプライトの指定をtupleで与えることもできます
 * `sp_def(code, buf, pat_size=1)` -- bufはbytesまたはbytearray、並びはラスタスキャンで与えます
-* `sp_pat(code, pat_size=1)`
-* `sp_move(sp, x, y, code, vsync=0)`
-* `sp_set(sp, x, y, code, prio, vsync=0)` -- prio=0～3: 非表示～高優先
+* `sp_pat(code, buf=None, pat_size=1)`
+* `sp_move(sp, x, y, code, vsync=False)`
+* `sp_set(sp, x, y, code_ex, prio, vsync=False)` -- prio=0～3: 非表示～高優先
 * `sp_disp(disp_on=True)`
-* `sp_stat(sp)` -- returns: (x, y, code, prio)
+* `sp_stat(sp)` -- returns: (x, y, code_ex, prio)
 * `sp_code(code, hrev, vrev, pal_blk)` -- パタンコードに反転やパレットブロックの属性を加えます
 * `bg_set(bg, page, disp_on=True)`
-* `bg_scroll(bg, x, y, vsync=0)`
-* `bg_fill(page, code)`
+* `bg_scroll(bg, x, y, vsync=False)`
+* `bg_fill(page, code_ex)`
 * `bg_get(page, x, y)`
-* `bg_put(page, x, y, code)`
+* `bg_put(page, x, y, code_ex)`
 * `bg_stat(bg)` -- returns: (x, y, page, disp_on)
 
 ### `audio`モジュール
 
-* `a_play(buf, freq, ch_bit=0b11, l=0)` -- freq=0～3: 3.9～15.6KHz
-* `a_rec(buf, frq, len)`
+* `a_play(buf, freq, ch_bit=0b11, l=0)` -- freq=0～4: 3.9～15.6KHz
+* `a_rec(buf, frq, l)`
 * `a_end()`
 * `a_stop()`
 * `a_cont()`
@@ -209,9 +228,9 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 * `m_stat(ch=0)`
 * `m_tempo(tempo)`
 * `m_trk(trk, mml)`
+* `m_atoi(trk)`
 * `m_vset(vo, buf)`
 * `m_vget(vo, buf=None)`
-* `m_atoi(trk)`
 
 ### `mouse`モジュール
 
@@ -242,4 +261,5 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 
 Pythonのインタプリタ環境は、かつてのBASICと同じように、X68Kが持つ多数の機能をあれこれ試しながら使うのに大変便利です。私は“いい歳のX68K新参者”ですが、楽しくX68Kの勉強を始めることができました。[micropython-x68k](https://github.com/yunkya2/micropython-x68k)を開発された[yunk](https://github.com/yunkya2)さん、数多くのサンプルコードとともに有益な情報を公開してくださった[tantan](https://github.com/tantanGH)さん、[あうぇっど](https://github.com/YosAwed)さんに心から感謝いたします。本パッケージの組み込みや、コードの流用は、どなたでもご自由に行ってください。
 
+----
 nozwas/のずわす(https://github.com/nozwas)

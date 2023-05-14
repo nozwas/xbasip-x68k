@@ -1,17 +1,49 @@
 xbasip 変更履歴
 
+ver.0.2.0:  MycroPython v1.20.0-x68k-1.1でプリコンパイル
+            console.py: 
+                priority()を追加
+                ctrmod()を追加
+                inkeyS(0)で入力が無い場合に'\x00'ではなく''（空文字列）を返す
+                bitsns()のハングアップを修正
+            graph.py:
+                crtmod()を削除。consoleモジュールへ移動
+                get2()、put2()を追加し、get_at()、put_atを削除
+            sprite.py:
+                bg_scroll()、sp_color()、sp_on()、sp_off()、sp_move()、sp_set()
+                の引数vsyncのデフォルト値を0からFalseに変更
+                bg_scroll()はx68k.Splite.bgscroll()を呼ぶように変更
+                sp_pat()に引数bufを追加
+                sp_move()の左上座標を(0,0)に変更
+            music.py:
+                zmusic2.x使用時のトラック数、チャネル数の上限を拡大
+            sample04.py:
+                音色設定を整数配列から行う例を追加
+           
+ver.0.1.3:  import sysをimport usysに変更
+            import structをimport ustructに変更
+            書き込みバッファのアドレス指定をa1wに統一
+            graph.py:
+                get_at()、put_at()を追加
+            
 ver.0.1.2:  graph.py: get()の引数bufを省略した場合の不具合修正
 
-ver.0.1.1b: sample05.py: カーソルキーの扱い方を変更
-            wormgame.py: カーソルキーの扱い方を変更
+ver.0.1.1b: sample05.py: カーソルキーの扱い方を再度変更
+            wormgame.py: カーソルキーの扱い方を再度変更
 
-ver.0.1.1:  graph.py: crtmod()の引数にdisp_onを追加
-	    graph.py: contrast()、window()の戻り値を削除
-	    console.py: rgb()を削除。graphモジュールでの定義に一本化
-	    sample03.py: rgb()をgraphモジュールからimportするよう変更
-	    sample05.py: カーソルキーの扱い方を変更
-	    sample06.py: rgb()をgraphモジュールからimportするよう変更
-	    wormgame.py: カーソルキーの扱い方を変更
-	    wormgame.py: rgb()をgraphモジュールからimportするよう変更
+ver.0.1.1:  graph.py: 
+                crtmod()の引数にdisp_onを追加
+                contrast()、window()の戻り値を削除
+            console.py: 
+                rgb()を削除。graphモジュールでの定義に一本化
+            sample03.py: 
+                rgb()をgraphモジュールからimportするよう変更
+            sample05.py: 
+                カーソルキーの扱い方を変更
+            sample06.py: 
+                rgb()をgraphモジュールからimportするよう変更
+            wormgame.py: 
+                カーソルキーの扱い方を変更
+                rgb()をgraphモジュールからimportするよう変更
 
 ver.0.1.0:  最初のリリース

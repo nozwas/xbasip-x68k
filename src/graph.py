@@ -8,16 +8,9 @@ r"""graph.py
 
 import x68k
 from uctypes import addressof
-from struct import pack, unpack
+from ustruct import pack, unpack
 
 _last_point = [0, 0]
-
-def crtmod(mode, disp_on=True):
-    global _last_point
-    _last_point = (0, 0)
-    x68k.iocs(x68k.i.CRTMOD, d1=mode)
-    if disp_on:
-        x68k.iocs(x68k.i.G_CLR_ON)
 
 def palet(pal, color):
     x68k.iocs(x68k.i.GPALET ,d1=pal, d2=color)
@@ -76,7 +69,9 @@ def paint(x, y, color, buf=None):
 def get(x1, y1, x2, y2, buf=None):
     depth = (4, 8, 16, 16, 4)[x68k.iocs(x68k.i.G_MOD, d1=-1)]
     if buf is None:
-        buf = bytearray(((x2-x1+1)*(y2-y1+1)*depth + 4) >> 3)
+        buf = bytearray(((x2 - x1 + 1)*(y2 - y1 + 1) * depth + 4) >> 3)
+    elif len(buf) < ((x2 - x1 + 1)*(y2 - y1 + 1) * depth + 4) >> 3:
+        raise RuntimeError("wrong buf size")
     x68k.iocs(x68k.i.GETGRM,
               a1=pack('4h2l', x1, y1, x2, y2,
                       addressof(buf), addressof(buf) + len(buf)))
@@ -88,16 +83,33 @@ def put(x1, y1, x2, y2, buf):
               a1=pack('4h2l', x1, y1, x2, y2,
                       addressof(buf), addressof(buf) + len(buf)))
 
+def get2(x1, y1, x2, y2):
+    gmod = x68k.iocs(x68k.i.G_MOD, d1=-1)
+    w = x2 - x1 + 1
+    h = y2 - y1 + 1
+    buf = bytearray(pack('3h', w, h, (0xf, 0xff, 0xffff, 0xffff, 0xf)[gmod])) \
+        + bytearray((w * h * (4, 8, 16, 16, 4)[gmod] + 4) >> 3)
+    x68k.iocs(x68k.i.GGET, d1=x1, d2=y1, a1w=buf)
+    return buf
+
+@micropython.native
+def put2(x, y, buf, mask=None):
+    if mask is None:
+        iocs_gput = x68k.i.GPUT
+        mask = 0
+    else:
+        iocs_gput = x68k.i.MASK_GPUT
+    x68k.iocs(iocs_gput, d1=x, d2=y, d3=mask, a1=buf)
+    
 def symbol(x, y, str, xmag, ymag, font_size, color, dir=0):
-    # font_size: 0=6*12, 1=8*16, 2=12*24, dir: 0=Right, 1=Up, 2=Left, 3=Down
     if font_size in (6, 8, 12):
         font_size = (0, 1, 2)[(6, 8, 12).index(font_size)]
     x68k.iocs(x68k.i.SYMBOL, a1=pack('2h1l2b1h2b', x, y, addressof(str),
                                      xmag, ymag, color, font_size, dir))
 
 def point(x, y):
-    p = pack('3h', x, y, 0)
-    x68k.iocs(x68k.i.POINT, a1w=addressof(p))
+    p = bytearray(pack('3h', x, y, 0))
+    x68k.iocs(x68k.i.POINT, a1w=p)
     return unpack('3h', p)[2]
 
 def contrast(level):
@@ -121,5 +133,5 @@ def home(page, x, y):
     x68k.iocs(x68k.i.HOME, d1=1 << page, d2=x, d3=y)
 
 @micropython.native
-def scroll(page, x, y): # page: graph=0..3, text=8
+def scroll(page, x, y):
     x68k.iocs(x68k.i.SCROLL, d1=page, d2=x, d3=y)
