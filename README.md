@@ -78,6 +78,8 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 
 `docs`フォルダに全関数の機能と使い方をまとめたリファレンスマニュアルを用意しました。モジュールごとにページが分かれているので、関連する関数をまとめてご確認ください。
 
+[GitHub Pages](https://nozwas.github.io/xbasip-x68k/)で公開しましたのでオンライン参照できます(https://nozwas.github.io/xbasip-x68k/)。
+
 ## ファイル構成
 
 `xbasip`フォルダに`mpycross.x`でプリコンパイル済みの`*.mpy`ファイルが格納されています。使用時はこのフォルダのみが必要です。`src`フォルダにはソースの`*.py`ファイルが入っています。
