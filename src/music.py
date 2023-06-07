@@ -9,11 +9,13 @@ r"""music.py
 import x68k
 from ustruct import pack
 
-def m_init():
+def m_init(mode=0):
     opmdrv = x68k.iocs(x68k.i.B_LPEEK, a1=(0x000400 + 4 * 0xf0))
     if opmdrv < 0 or (opmdrv >= 0xfe0000 and opmdrv <= 0xffffff):
         raise RuntimeError("OPMDRV is not installed")
-    x68k.iocs(x68k.i.OPMDRV, d1=0x00)
+    x68k.iocs(x68k.i.OPMDRV, d1=0x00, d2=mode)
+    for i in range(1000):
+        pass
 
 def m_alloc(trk, size):
     x68k.iocs(x68k.i.OPMDRV, d1=0x01, d2=(trk << 16) | size)
@@ -60,7 +62,11 @@ def m_tempo(tempo):
 
 def m_trk(trk, mml):
     mml += "\x00"
-    x68k.iocs(x68k.i.OPMDRV, d1=0x06, d2=trk, a1=mml)
+    err = x68k.iocs(x68k.i.OPMDRV, d1=0x06, d2=trk, a1=mml)
+    if err == 28:
+        raise RuntimeError("trk buffer is too small")
+    elif err != 0:
+        raise RuntimeError("wrong mml data")
     
 def m_vset(vo, buf):
     x68k.iocs(x68k.i.OPMDRV, d1=0x04, d2=vo, a1=buf)

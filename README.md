@@ -2,7 +2,7 @@
 
 [MicroPython for X68000](https://github.com/yunkya2/micropython-x68k)用にX-BASIC風の関数群パッケージを作成しました。ほとんどIOCSCALLやDOSCALLを呼んでいるだけですが、X-BASICの情報を活かしながらX68KでPythonプログラミングを始める参考になれば幸いです。
 
-MycroPython v1.20.0-x68k-1.1で動作を確認しています。
+MycroPython v1.20.0-x68k-1.2で動作を確認しています。
 
 ## 使い方
 
@@ -220,7 +220,7 @@ musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](htt
 
 musicモジュールを使用するには、opmdrv3.xもしくは[zmusic2.x](http://retropc.net/x68000/software/sound/zmusic/zmusic2/)をシステムに組み込んでおく必要があります。
 
-* `m_init()`
+* `m_init(mode=0)`
 * `m_alloc(trk, size)`
 * `m_free(trk)`
 * `m_assign(ch, trk)`

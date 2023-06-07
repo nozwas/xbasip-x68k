@@ -1,5 +1,9 @@
 xbasip 変更履歴
 
+ver.0.2.1:  MycroPython v1.20.0-x68k-1.2でプリコンパイル
+            music.py:
+		m_init()に初期化モードの引数を追加、初期化後のwaitを追加
+
 ver.0.2.0:  MycroPython v1.20.0-x68k-1.1でプリコンパイル
             console.py: 
                 priority()を追加

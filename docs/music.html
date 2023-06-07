@@ -845,9 +845,15 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 <h3 id="musicモジュール"><code>music</code>モジュール</h3>
 <ul>
 <li>
-<p><code>m_init()</code></p>
+<p><code>m_init(mode=0)</code></p>
 <ul>
 <li>FM音源を初期化します。</li>
+<li><code>mode</code> -- 初期化モード
+<ul>
+<li>0 : トラックバッファの初期化</li>
+<li>1 : トラックバッファ、音色データの初期化</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
@@ -856,6 +862,7 @@ pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5p
 <li>トラックバッファを確保します。</li>
 <li><code>trk</code> -- トラック番号（1～80）</li>
 <li><code>size</code> -- バッファサイズ（バイト）</li>
+<li>全トラックバッファ内のデータはクリアされます。</li>
 </ul>
 </li>
 <li>
