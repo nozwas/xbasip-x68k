@@ -2,7 +2,7 @@
 
 [MicroPython for X68000](https://github.com/yunkya2/micropython-x68k)用にX-BASIC風の関数群パッケージを作成しました。ほとんどIOCSCALLやDOSCALLを呼んでいるだけですが、X-BASICの情報を活かしながらX68KでPythonプログラミングを始める参考になれば幸いです。
 
-MycroPython v1.20.0-x68k-1.2で動作を確認しています。
+MycroPython v1.20.0-x68k-1.3で動作を確認しています。
 
 ## 使い方
 
